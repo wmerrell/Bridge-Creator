@@ -72,6 +72,7 @@ Gusset_Center_in_Inches = 14.0;
 Skew_Angle_in_Degrees = 0;
 Girder_Has_Stiffening_Layers = true;
 Girder_End_Curve_Radius_In_Inches = 24.0;
+Girder_End_Setback_In_Inches = 24.0;
 
 Show_Rivets = true;
 Use_Knees = true;
@@ -199,7 +200,8 @@ Space_Between_Parts = 0.0;
     ["deck_center",             ((scaler(Scale, Bridge_Width_in_Feet * 12) - (scaler(Scale, Side_Girder_Thickness_in_Inches) * 2)) / 2)],
     ["deck_beam_height",        scaler(Scale, Deck_Beam_Height_in_Inches)],
     ["deck_beam_thickness",     scaler(Scale, Deck_Beam_Thickness_in_Inches)],
-    ["deck_beam_inset",         scaler(Scale, Girder_End_Curve_Radius_In_Inches)],
+    ["deck_beam_inset",         scaler(Scale, Girder_End_Setback_In_Inches)],
+    ["deck_beam_roundover",     scaler(Scale, Girder_End_Curve_Radius_In_Inches)],
     ["stringer_height",         scaler(Scale, Stringer_Height_in_Inches)],
     ["stringer_thickness",      scaler(Scale, Stringer_Thickness_in_Inches)],
     ["brace_height",            scaler(Scale, Brace_Height_in_Inches)],
@@ -207,14 +209,14 @@ Space_Between_Parts = 0.0;
 
     ["gusset_length",           scaler(Scale, Gusset_Length_in_Inches)],
     ["gusset_width",            scaler(Scale, Gusset_Width_in_Inches)],
-    ["gusset_center",           scaler(Scale, Brace_Thickness_in_Inches)],
+    ["gusset_center",           scaler(Scale, Gusset_Center_in_Inches)],
     ["rivet_round",             8],
     ["rivet_height",            scaler(Scale, 1.0)],
     ["rivet_size1",             scaler(Scale, 1.5)],
     ["rivet_size2",             scaler(Scale, 0.8)],
     ["rivet_offset",            scaler(Scale, 5.0)],
     ["bays",                    Bay_Count],
-    ["bay_length",              (scaler(Scale, Bridge_Length_in_Feet * 12)-(scaler(Scale, Girder_End_Curve_Radius_In_Inches)*2)) / Bay_Count],
+    ["bay_length",              scaler(Scale, ((Bridge_Length_in_Feet * 12)-(Girder_End_Setback_In_Inches*2)) / Bay_Count)],
     ["space_between_parts",     Space_Between_Parts],
 
     ["has_stiffening_layers",   Girder_Has_Stiffening_Layers],
@@ -225,7 +227,10 @@ Space_Between_Parts = 0.0;
 
 ]; 
 
-// *
+echo();
+echo(parameters=parameters);
+echo();
+
 
 //
 // ---------------------------------------------------------------------------- //
@@ -280,22 +285,16 @@ module mains_in_assembly()pose([35.40, 0.00, 144.20], [-13.10, 0.00, 13.75])
 
       if(Deck_Type==0) {
         braced_deck_assembly( parameters );
-    //   } else if(Deck_Type==1) {
-    //     stringer_deck(bridge_length, deck_width, deck_thickness);
-    //   } else if(Deck_Type==2) {
-    //     beam_deck(bridge_length, deck_width, deck_thickness);
+      } else if(Deck_Type==1) {
+        stringer_deck_assembly( parameters );
+      } else if(Deck_Type==2) {
+        beam_deck_assembly( parameters );
       } else {
         assert(false, "Unknown Deck Type");
       } 
-    //   girder(0, -space_between_parts-girder_thickness,["left"]);
-    //   if (!Extension) {
-    //     girder(deck_width_offset, deck_width+space_between_parts,["right"]);
-    //   }
-    
-    //   deck_assembly(Bridge_Type, Deck_Type, bridge_length, deck_width, deck_thickness);
-      side_girder_assembly(parameters, 0, "left");
+      side_girder_assembly( parameters, 0, "left");
       if (!Extension) {
-        side_girder_assembly(parameters, 0, "right");
+        side_girder_assembly( parameters, 0, "right");
       }
 
       //
@@ -303,8 +302,11 @@ module mains_in_assembly()pose([35.40, 0.00, 144.20], [-13.10, 0.00, 13.75])
     } else if(Bridge_Type == 1) {
       echo("Bridge Type: Deck Girder");
     //   deck_assembly(bridge_length, deck_width, deck_thickness);
-    //   left_side_panel_assembly (girder_height, girder_thickness, 90, false);
-    //   right_side_panel_assembly(girder_height, girder_thickness, 90, false);
+      deck_deck_assembly( parameters );
+      side_girder_assembly( parameters, 0, "left");
+      if (!Extension) {
+        side_girder_assembly( parameters, 0, "right");
+      }
 
       //
       // Bridge Type: Through Truss
@@ -345,7 +347,9 @@ assembly("main"){
   mains_in_assembly();
 }
 
-if($preview)
-  main_assembly();
+main_assembly();
+
+// if($preview)
+//   main_assembly();
 // else
 //     socket_box_stl();
