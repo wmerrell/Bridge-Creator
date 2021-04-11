@@ -239,7 +239,7 @@ echo();
 //
 
 //
-// left_side_panel
+// side_girder
 //! 1. Glue the deck in
 //!
 //
@@ -259,15 +259,23 @@ assembly("side_girder"){
 }
 
 //
-// right_side_panel
+// side_truss
 //! 1. Glue the deck in
 //!
 //
-module right_side_panel_assembly(side_height, side_thickness, direction, verticals)
-assembly("right_side_panel"){
-  translate([0, -value_of("space_between_parts", parameters), 0])
-    rotate([direction, 0, 0]){
-      side_panel_assembly(side_height, side_thickness);
+module side_truss_assembly(parameters, position, direction)
+assembly("side_truss"){
+    if (direction=="left") {
+        translate([angle_offset(value_of("deck_width", parameters), value_of("skew_angle", parameters)), value_of("deck_width", parameters) + value_of("truss_thickness", parameters) + value_of("space_between_parts", parameters), 0])
+            rotate([position, 0, 0]){
+                truss_assembly(parameters);
+            }
+    } else {
+        translate([0,  -value_of("truss_thickness", parameters)-value_of("space_between_parts", parameters), 0])
+        mirror([0,1,0])
+            rotate([position, 0, 0]){
+                truss_assembly(parameters);
+            }
     }
 }
 
@@ -301,7 +309,6 @@ module mains_in_assembly()pose([35.40, 0.00, 144.20], [-13.10, 0.00, 13.75])
       // Bridge Type: Deck Girder
     } else if(Bridge_Type == 1) {
       echo("Bridge Type: Deck Girder");
-    //   deck_assembly(bridge_length, deck_width, deck_thickness);
       deck_deck_assembly( parameters );
       side_girder_assembly( parameters, 0, "left");
       if (!Extension) {
@@ -312,9 +319,21 @@ module mains_in_assembly()pose([35.40, 0.00, 144.20], [-13.10, 0.00, 13.75])
       // Bridge Type: Through Truss
     } else if(Bridge_Type == 2) {
       echo("Bridge Type: Through Truss");
-    //   deck_assembly(bridge_length, deck_width, deck_thickness);
-    //   left_side_panel_assembly (girder_height, girder_thickness, 90, false);
-    //   right_side_panel_assembly(girder_height, girder_thickness, 90, false);
+      if(Deck_Type==0) {
+        braced_deck_assembly( parameters );
+      } else if(Deck_Type==1) {
+        stringer_deck_assembly( parameters );
+      } else if(Deck_Type==2) {
+        beam_deck_assembly( parameters );
+      } else {
+        assert(false, "Unknown Deck Type");
+      } 
+      
+      side_truss_assembly( parameters, 90, "left");
+      if (!Extension) {
+        side_truss_assembly( parameters, 90, "right");
+      }
+
       // roof_assembly(Bridge_Type, Roof_Type);
 
       //

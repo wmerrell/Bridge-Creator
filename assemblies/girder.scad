@@ -117,7 +117,6 @@ module girder_rib (parameters, last, Xpos, knees) {
 //
 module girder_assembly(parameters, knees)
 assembly("girder"){
-  // cube([value_of("bridge_length", parameters), value_of("girder_height", parameters), value_of("girder_thickness", parameters)]);
 
     // = value_of("", parameters);
     bridge_type             = value_of("bridge_type", parameters);
