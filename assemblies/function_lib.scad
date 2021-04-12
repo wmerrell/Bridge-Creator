@@ -35,6 +35,48 @@ function angle_of(Xlen, Ylen) = atan2(Xlen, Ylen);
 // value_of
 function value_of(name,list) = list[search([name],list)[0]][1];
 
+//
+// list functions
+function scale(list)= list[search(["scale"],list)[0]][1];                   
+function gauge(list)= list[search(["gauge"],list)[0]][1];                   
+function skew_angle(list)= list[search(["skew_angle"],list)[0]][1];              
+function bridge_type(list)= list[search(["bridge_type"],list)[0]][1];             
+function deck_type(list)= list[search(["deck_type"],list)[0]][1];               
+function truss_type(list)= list[search(["truss_type"],list)[0]][1];              
+function roof_type(list)= list[search(["roof_type"],list)[0]][1];               
+function steel_thickness(list)= list[search(["steel_thickness"],list)[0]][1];         
+function bridge_length(list)= list[search(["bridge_length"],list)[0]][1];           
+function bridge_width(list)= list[search(["bridge_width"],list)[0]][1];            
+function girder_height(list)= list[search(["girder_height"],list)[0]][1];           
+function girder_thickness(list)= list[search(["girder_thickness"],list)[0]][1];        
+function truss_height(list)= list[search(["truss_height"],list)[0]][1];            
+function truss_thickness(list)= list[search(["truss_thickness"],list)[0]][1];         
+function deck_thickness(list)= list[search(["deck_thickness"],list)[0]][1];          
+function deck_width(list)= list[search(["deck_width"],list)[0]][1];              
+function deck_center(list)= list[search(["deck_center"],list)[0]][1];             
+function deck_beam_height(list)= list[search(["deck_beam_height"],list)[0]][1];        
+function deck_beam_thickness(list)= list[search(["deck_beam_thickness"],list)[0]][1];     
+function deck_beam_inset(list)= list[search(["deck_beam_inset"],list)[0]][1];         
+function deck_beam_roundover(list)= list[search(["deck_beam_roundover"],list)[0]][1];     
+function stringer_height(list)= list[search(["stringer_height"],list)[0]][1];         
+function stringer_thickness(list)= list[search(["stringer_thickness"],list)[0]][1];      
+function brace_height(list)= list[search(["brace_height"],list)[0]][1];            
+function brace_thickness(list)= list[search(["brace_thickness"],list)[0]][1];         
+function gusset_length(list)= list[search(["gusset_length"],list)[0]][1];           
+function gusset_width(list)= list[search(["gusset_width"],list)[0]][1];            
+function gusset_center(list)= list[search(["gusset_center"],list)[0]][1];           
+function rivet_round(list)= list[search(["rivet_round"],list)[0]][1];             
+function rivet_height(list)= list[search(["rivet_height"],list)[0]][1];            
+function rivet_size1(list)= list[search(["rivet_size1"],list)[0]][1];             
+function rivet_size2(list)= list[search(["rivet_size2"],list)[0]][1];             
+function rivet_offset(list)= list[search(["rivet_offset"],list)[0]][1];            
+function bays(list)= list[search(["bays"],list)[0]][1];                    
+function bay_length(list)= list[search(["bay_length"],list)[0]][1];              
+function space_between_parts(list)= list[search(["space_between_parts"],list)[0]][1];     
+function has_stiffening_layers(list)= list[search(["has_stiffening_layers"],list)[0]][1];   
+function show_rivets(list)= list[search(["show_rivets"],list)[0]][1];             
+function use_knees(list)= list[search(["use_knees"],list)[0]][1];               
+function extension(list)= list[search(["extension"],list)[0]][1];               
 
 //
 // gusset

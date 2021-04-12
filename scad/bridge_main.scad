@@ -85,146 +85,48 @@ Space_Between_Parts = 0.0;
 // REMAINING PARAMETERS
 //
 
-// //
-// //
-// scale = [220, 160, 87, 64, 48][Scale];
-// gauge = [6.5, 9.0, 16.5, 22.43, 30.0][Scale];
-// echo(Scale = Scale, scale = scale, gauge = gauge);
-// gauge_offset = (gauge/2);
-// echo(Bridge_Type = Bridge_Type);
-// bridge_length = scaler(Scale, Bridge_Length_in_Feet * 12);
-// bridge_width = scaler(Scale, Bridge_Width_in_Feet * 12);
-// echo(bridge_length = bridge_length, bridge_width = bridge_width);
-
-
-// deck_thickness = [0.3, 0.5, 0.75, 1.1, 1.6][Scale];
-// echo(deck_thickness = deck_thickness);
-// girder_height = scaler(Scale, Side_Girder_Height_in_Feet * 12);
-// girder_thickness = scaler(Scale, Side_Girder_Thickness_in_Inches);
-// echo(girder_height = girder_height, girder_thickness = girder_thickness);
-
-// truss_height = scaler(Scale, Side_Truss_Height_in_Feet * 12);
-// truss_thickness = scaler(Scale, Side_Truss_Thickness_in_Inches);
-// echo(truss_height = truss_height, truss_thickness = truss_thickness);
-
-// side_height = (girder_height > truss_height)?girder_height:truss_height;
-
-// deck_width = bridge_width - (girder_thickness * 2);
-// echo(deck_width = deck_width);
-// deck_center = (deck_width/2);
-// skew_angle = Skew_Angle_in_Degrees;
-
-// steel_thickness = scaler(Scale, [3.0, 2.5, 1.75, 1.5, 1][Scale]);
-// thin_steel_thickness = scaler(Scale, [2.5, 1.5, 1.0, 0.75, 0.5][Scale]);
-// deck_beam_height = scaler(Scale, Deck_Beam_Height_in_Inches);
-// deck_beam_thickness = scaler(Scale, Deck_Beam_Thickness_in_Inches);
-// deck_beam_inset = scaler(Scale, Girder_End_Curve_Radius_In_Inches);
-// stringer_height = scaler(Scale, Stringer_Height_in_Inches);
-// stringer_thickness = scaler(Scale, Stringer_Thickness_in_Inches);
-// stringer_offset = (stringer_thickness/2);
-// brace_height = scaler(Scale, Brace_Height_in_Inches);
-// brace_thickness = scaler(Scale, Brace_Thickness_in_Inches);
-//  gusset_length = scaler(Scale, Gusset_Length_in_Inches);
-//  gusset_width = scaler(Scale, Gusset_Width_in_Inches);
-//  gusset_center = scaler(Scale, Gusset_Center_in_Inches);
-
-// rivet_round = 8 * 1;
-// rivet_height = scaler(Scale, 1.0);
-// rivet_size1 = scaler(Scale, 1.5);
-// rivet_size2 = scaler(Scale, 0.8);
-// rivet_offset = scaler(Scale, 5);
-// space_between_parts = Space_Between_Parts == 0?-(girder_thickness / 2):Space_Between_Parts;
-// echo(space_between_parts = space_between_parts);
-// echo();
-
-// deck_width_offset = angle_offset(deck_width, skew_angle);
-// deck_center_offset = angle_offset(deck_center, skew_angle);
-// calc_angle = angle_of(deck_width_offset, deck_width);
-// echo(deck_width = deck_width, deck_width_offset = deck_width_offset);
-// echo(skew_angle = skew_angle, calc_angle = calc_angle);
-// echo();
-
-// //////////////////////////////////////////////////////////////////////////////////////////
-// //bays=ceil(bridge_length/deck_width);
-// bays = Bay_Count;
-// bay_length = (bridge_length / bays);
-
-// brace_angle_forward = angle_of(deck_width_offset + bay_length, deck_width);
-// brace_angle_reverse = angle_of(deck_width_offset - bay_length, deck_width);
-
-// brace_adjust_forward = abs(angle_offset(brace_thickness / 2, brace_angle_forward) / 2);
-// steel_adjust_forward = abs(angle_offset(steel_thickness / 2, brace_angle_forward) / 2);
-// brace_adjust_reverse = abs(angle_offset(brace_thickness / 2, brace_angle_reverse) / 2);
-// steel_adjust_reverse = abs(angle_offset(steel_thickness / 2, brace_angle_reverse) / 2);
-
-// echo(brace_angle_forward = brace_angle_forward, brace_angle_reverse = brace_angle_reverse);
-// echo(brace_adjust_forward = brace_adjust_forward, steel_adjust_forward = steel_adjust_forward);
-// echo(brace_adjust_reverse = brace_adjust_reverse, steel_adjust_reverse = steel_adjust_reverse);
-
-// deck_brace_angle_forward = angle_of(deck_width_offset + bay_length, deck_width);
-// deck_brace_angle_reverse = angle_of(deck_width_offset - bay_length, deck_width);
-
-// deck_brace_adjust_forward = abs(angle_offset(brace_thickness / 2, brace_angle_forward) / 2);
-// deck_steel_adjust_forward = abs(angle_offset(steel_thickness / 2, brace_angle_forward) / 2);
-// deck_brace_adjust_reverse = abs(angle_offset(brace_thickness / 2, brace_angle_reverse) / 2);
-// deck_steel_adjust_reverse = abs(angle_offset(steel_thickness / 2, brace_angle_reverse) / 2);
-// //////////////////////////////////////////////////////////////////////////////////////////
-
-// beam_adjust = abs(angle_offset(deck_beam_thickness / 2, skew_angle) / 2) + (deck_beam_thickness / 2);
-// beam_steel_adjust = abs(angle_offset(steel_thickness / 2, skew_angle) / 2) + (steel_thickness / 2);
-// beam_offset = angle_offset(deck_width, skew_angle);
-// echo(beam_offset = beam_offset, beam_adjust = beam_adjust);
-
-// girder_adjust = angle_offset(girder_thickness, skew_angle) / 2;
-// gusset_adjust = angle_offset( gusset_width, skew_angle);
-
-
- parameters=[
-    ["scale",                   [220, 160, 87, 64, 48][Scale]],
-    ["gauge",                   [6.5, 9.0, 16.5, 22.43, 30.0][Scale]],
-    ["skew_angle",              Skew_Angle_in_Degrees],
-    ["bridge_type",             Bridge_Type],
-    ["deck_type",               Deck_Type],
-    ["truss_type",              Truss_Type],
-    ["roof_type",               Roof_Type],
-
-    ["steel_thickness",         scaler(Scale, [3.0, 2.5, 1.75, 1.5, 1][Scale])],
-    ["bridge_length",           scaler(Scale, Bridge_Length_in_Feet * 12)],
-    ["bridge_width",            scaler(Scale, Bridge_Width_in_Feet * 12)],
-    ["girder_height",           scaler(Scale, Side_Girder_Height_in_Feet * 12)],
-    ["girder_thickness",        scaler(Scale, Side_Girder_Thickness_in_Inches)],
-    ["truss_height",            scaler(Scale, Side_Truss_Height_in_Feet * 12)],
-    ["truss_thickness",         scaler(Scale, Side_Truss_Thickness_in_Inches)],
-    ["deck_thickness",          [0.3, 0.5, 0.75, 1.1, 1.6][Scale]],
-    ["deck_width",              (scaler(Scale, Bridge_Width_in_Feet * 12) - (scaler(Scale, Side_Girder_Thickness_in_Inches) * 2))],
-    ["deck_center",             ((scaler(Scale, Bridge_Width_in_Feet * 12) - (scaler(Scale, Side_Girder_Thickness_in_Inches) * 2)) / 2)],
-    ["deck_beam_height",        scaler(Scale, Deck_Beam_Height_in_Inches)],
-    ["deck_beam_thickness",     scaler(Scale, Deck_Beam_Thickness_in_Inches)],
-    ["deck_beam_inset",         scaler(Scale, Girder_End_Setback_In_Inches)],
-    ["deck_beam_roundover",     scaler(Scale, Girder_End_Curve_Radius_In_Inches)],
-    ["stringer_height",         scaler(Scale, Stringer_Height_in_Inches)],
-    ["stringer_thickness",      scaler(Scale, Stringer_Thickness_in_Inches)],
-    ["brace_height",            scaler(Scale, Brace_Height_in_Inches)],
-    ["brace_thickness",         scaler(Scale, Brace_Thickness_in_Inches)],
-
-    ["gusset_length",           scaler(Scale, Gusset_Length_in_Inches)],
-    ["gusset_width",            scaler(Scale, Gusset_Width_in_Inches)],
-    ["gusset_center",           scaler(Scale, Gusset_Center_in_Inches)],
-    ["rivet_round",             8],
-    ["rivet_height",            scaler(Scale, 1.0)],
-    ["rivet_size1",             scaler(Scale, 1.5)],
-    ["rivet_size2",             scaler(Scale, 0.8)],
-    ["rivet_offset",            scaler(Scale, 5.0)],
-    ["bays",                    Bay_Count],
-    ["bay_length",              scaler(Scale, ((Bridge_Length_in_Feet * 12)-(Girder_End_Setback_In_Inches*2)) / Bay_Count)],
-    ["space_between_parts",     Space_Between_Parts],
-
-    ["has_stiffening_layers",   Girder_Has_Stiffening_Layers],
-    ["show_rivets",             Show_Rivets],
-    ["use_knees",               Use_Knees],
-    ["extension",               Extension],
-    ["0",                       0]
-
+parameters=[
+  ["scale",                   [220, 160, 87, 64, 48][Scale]],
+  ["gauge",                   [6.5, 9.0, 16.5, 22.43, 30.0][Scale]],
+  ["skew_angle",              Skew_Angle_in_Degrees],
+  ["bridge_type",             Bridge_Type],
+  ["deck_type",               Deck_Type],
+  ["truss_type",              Truss_Type],
+  ["roof_type",               Roof_Type],
+  ["steel_thickness",         scaler(Scale, [3.0, 2.5, 1.75, 1.5, 1][Scale])],
+  ["bridge_length",           scaler(Scale, Bridge_Length_in_Feet * 12)],
+  ["bridge_width",            scaler(Scale, Bridge_Width_in_Feet * 12)],
+  ["girder_height",           scaler(Scale, Side_Girder_Height_in_Feet * 12)],
+  ["girder_thickness",        scaler(Scale, Side_Girder_Thickness_in_Inches)],
+  ["truss_height",            scaler(Scale, Side_Truss_Height_in_Feet * 12)],
+  ["truss_thickness",         scaler(Scale, Side_Truss_Thickness_in_Inches)],
+  ["deck_thickness",          [0.3, 0.5, 0.75, 1.1, 1.6][Scale]],
+  ["deck_width",              (scaler(Scale, Bridge_Width_in_Feet * 12) - (scaler(Scale, Side_Girder_Thickness_in_Inches) * 2))],
+  ["deck_center",             ((scaler(Scale, Bridge_Width_in_Feet * 12) - (scaler(Scale, Side_Girder_Thickness_in_Inches) * 2)) / 2)],
+  ["deck_beam_height",        scaler(Scale, Deck_Beam_Height_in_Inches)],
+  ["deck_beam_thickness",     scaler(Scale, Deck_Beam_Thickness_in_Inches)],
+  ["deck_beam_inset",         scaler(Scale, Girder_End_Setback_In_Inches)],
+  ["deck_beam_roundover",     scaler(Scale, Girder_End_Curve_Radius_In_Inches)],
+  ["stringer_height",         scaler(Scale, Stringer_Height_in_Inches)],
+  ["stringer_thickness",      scaler(Scale, Stringer_Thickness_in_Inches)],
+  ["brace_height",            scaler(Scale, Brace_Height_in_Inches)],
+  ["brace_thickness",         scaler(Scale, Brace_Thickness_in_Inches)],
+  ["gusset_length",           scaler(Scale, Gusset_Length_in_Inches)],
+  ["gusset_width",            scaler(Scale, Gusset_Width_in_Inches)],
+  ["gusset_center",           scaler(Scale, Gusset_Center_in_Inches)],
+  ["rivet_round",             8],
+  ["rivet_height",            scaler(Scale, 1.0)],
+  ["rivet_size1",             scaler(Scale, 1.5)],
+  ["rivet_size2",             scaler(Scale, 0.8)],
+  ["rivet_offset",            scaler(Scale, 5.0)],
+  ["bays",                    Bay_Count],
+  ["bay_length",              scaler(Scale, ((Bridge_Length_in_Feet * 12)-(Girder_End_Setback_In_Inches*2)) / Bay_Count)],
+  ["space_between_parts",     Space_Between_Parts],
+  ["has_stiffening_layers",   Girder_Has_Stiffening_Layers],
+  ["show_rivets",             Show_Rivets],
+  ["use_knees",               Use_Knees],
+  ["extension",               Extension],
+  ["0",                       0]
 ]; 
 
 echo();
@@ -243,19 +145,18 @@ echo();
 //! 1. Glue the deck in
 //!
 //
-module side_girder_assembly(parameters, position, direction)
-assembly("side_girder"){
-    if (direction=="left") {
-        translate([angle_offset(value_of("deck_width", parameters), value_of("skew_angle", parameters)), value_of("deck_width", parameters) + value_of("space_between_parts", parameters), 0])
-            rotate([position, 0, 0]){
-                girder_assembly(parameters, ["left"]);
-            }
-    } else {
-        translate([0, -value_of("space_between_parts", parameters), 0])
-            rotate([position, 0, 0]){
-                girder_assembly(parameters, ["right"]);
-            }
-    }
+module side_girder(p, position, direction) {
+  if (direction=="left") {
+    translate([angle_offset(deck_width(p), skew_angle(p)), deck_width(p) + space_between_parts(p), 0])
+      rotate([position, 0, 0]){
+        girder_assembly(p, ["left"]);
+      }
+  } else {
+    translate([0, -space_between_parts(p), 0])
+      rotate([position, 0, 0]){
+        girder_assembly(p, ["right"]);
+      }
+  }
 }
 
 //
@@ -263,112 +164,87 @@ assembly("side_girder"){
 //! 1. Glue the deck in
 //!
 //
-module side_truss_assembly(parameters, position, direction)
-assembly("side_truss"){
-    if (direction=="left") {
-        translate([angle_offset(value_of("deck_width", parameters), value_of("skew_angle", parameters)), value_of("deck_width", parameters) + value_of("truss_thickness", parameters) + value_of("space_between_parts", parameters), 0])
-            rotate([position, 0, 0]){
-                truss_assembly(parameters);
-            }
-    } else {
-        translate([0,  -value_of("truss_thickness", parameters)-value_of("space_between_parts", parameters), 0])
-        mirror([0,1,0])
-            rotate([position, 0, 0]){
-                truss_assembly(parameters);
-            }
-    }
+module side_truss(p, position, direction) {
+  if (direction=="left") {
+    translate([angle_offset(deck_width(p), skew_angle(p)), deck_width(p) + truss_thickness(p) + space_between_parts(p), 0])
+      rotate([position, 0, 0]){
+        truss_assembly(p);
+      }
+  } else {
+    translate([0, -truss_thickness(p)-space_between_parts(p), 0])
+    mirror([0,1,0])
+      rotate([position, 0, 0]){
+        truss_assembly(p);
+      }
+  }
 }
 
 //
 //! 1. Glue all the parts together
 //!
 //
-module mains_in_assembly()pose([35.40, 0.00, 144.20], [-13.10, 0.00, 13.75])
-  assembly("mains_in"){
-
+module main(p) {
     //
     // Bridge Type: Through Girder
-    if(Bridge_Type == 0) {
-      echo("Bridge Type: Through Girder");
-
-      if(Deck_Type==0) {
-        braced_deck_assembly( parameters );
-      } else if(Deck_Type==1) {
-        stringer_deck_assembly( parameters );
-      } else if(Deck_Type==2) {
-        beam_deck_assembly( parameters );
-      } else {
-        assert(false, "Unknown Deck Type");
-      } 
-      side_girder_assembly( parameters, 0, "left");
-      if (!Extension) {
-        side_girder_assembly( parameters, 0, "right");
-      }
-
-      //
-      // Bridge Type: Deck Girder
-    } else if(Bridge_Type == 1) {
-      echo("Bridge Type: Deck Girder");
-      deck_deck_assembly( parameters );
-      side_girder_assembly( parameters, 0, "left");
-      if (!Extension) {
-        side_girder_assembly( parameters, 0, "right");
-      }
-
-      //
-      // Bridge Type: Through Truss
-    } else if(Bridge_Type == 2) {
-      echo("Bridge Type: Through Truss");
-      if(Deck_Type==0) {
-        braced_deck_assembly( parameters );
-      } else if(Deck_Type==1) {
-        stringer_deck_assembly( parameters );
-      } else if(Deck_Type==2) {
-        beam_deck_assembly( parameters );
-      } else {
-        assert(false, "Unknown Deck Type");
-      } 
-      
-      side_truss_assembly( parameters, 90, "left");
-      if (!Extension) {
-        side_truss_assembly( parameters, 90, "right");
-      }
-
-      roof_assembly( parameters );
-
-      //
-      // Bridge Type: Deck Truss
-    } else if(Bridge_Type == 3) {
-      echo("Bridge Type: Deck Truss");
+  if(bridge_type(p) == 0) {
+    echo("Bridge Type: Through Girder");
+    if(deck_type(p)==0) {
+      braced_deck(p);
+    } else if(deck_type(p)==1) {
+      stringer_deck(p);
+    } else if(deck_type(p)==2) {
+      beam_deck(p);
+    } else {
+      assert(false, "Unknown Deck Type");
+    } 
+    side_girder(p, 0, "left");
+    if (!extension(p)) {
+      side_girder(p, 0, "right");
+    }
+    //
+    // Bridge Type: Deck Girder
+  } else if(bridge_type(p) == 1) {
+    echo("Bridge Type: Deck Girder");
+    deck_deck(p);
+    side_girder(p, 0, "left");
+    if (!extension(p)) {
+      side_girder(p, 0, "right");
+    }
+    //
+    // Bridge Type: Through Truss
+  } else if(bridge_type(p) == 2) {
+    echo("Bridge Type: Through Truss");
+    if(deck_type(p)==0) {
+      braced_deck(p);
+    } else if(deck_type(p)==1) {
+      stringer_deck(p);
+    } else if(deck_type(p)==2) {
+      beam_deck(p);
+    } else {
+      assert(false, "Unknown Deck Type");
+    } 
+    
+    side_truss(p, 90, "left");
+    if (!extension(p)) {
+      side_truss(p, 90, "right");
+    }
+    roof(p);
+    //
+    // Bridge Type: Deck Truss
+  } else if(bridge_type(p) == 3) {
+    echo("Bridge Type: Deck Truss");
     //   deck_assembly(bridge_length, deck_width, deck_thickness);
     //   left_side_panel_assembly (girder_height, girder_thickness, 90, false);
     //   right_side_panel_assembly(girder_height, girder_thickness, 90, false);
-
-      //
-      // Bridge Type: Angle Test
-    } else if(Bridge_Type == 4) {
-      echo("Bridge Type: Angle Test");
-      translate([0, 0, 0])cube([bridge_length, deck_width, deck_thickness]);
-
-      //
-      // Bridge Type: Unknown Bridge Type
-    } else {
-      assert(false, "Unknown Bridge Type");
-    }
+    //
+    // Bridge Type: Angle Test
+  } else if(bridge_type(p) == 4) {
+    echo("Bridge Type: Angle Test");
+    //
+    // Bridge Type: Unknown Bridge Type
+  } else {
+    assert(false, "Unknown Bridge Type");
   }
-
-//
-//!
-//!
-//
-module main_assembly()
-assembly("main"){
-  mains_in_assembly();
 }
 
-main_assembly();
-
-// if($preview)
-//   main_assembly();
-// else
-//     socket_box_stl();
+main(parameters);
