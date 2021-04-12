@@ -35,3 +35,34 @@ function angle_of(Xlen, Ylen) = atan2(Xlen, Ylen);
 // value_of
 function value_of(name,list) = list[search([name],list)[0]][1];
 
+
+//
+// gusset
+// point_list = [
+//    [test, angle, length, width, height, color],
+//    [test, angle, length, width, height, color],
+//    [test, angle, length, width, height, color]
+// ]
+//
+module gusset(Xpos, Ypos, Zpos, angle_list, point_list) {
+  color("PaleGreen") 
+    translate([Xpos, Ypos, Zpos]) rotate(angle_list) {
+      if(is_list(point_list)) {
+        hull () {
+          for(g = point_list) {
+            if(is_list(g)) {
+              if(g[0]) {
+                rotate(g[1]-90) {
+                  translate([0, -g[3]/2, 0]) {
+                    color(g[5]) cube([g[2], g[3], g[4]]);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+}
+
+

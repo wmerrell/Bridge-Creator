@@ -334,7 +334,7 @@ module mains_in_assembly()pose([35.40, 0.00, 144.20], [-13.10, 0.00, 13.75])
         side_truss_assembly( parameters, 90, "right");
       }
 
-      // roof_assembly(Bridge_Type, Roof_Type);
+      roof_assembly( parameters );
 
       //
       // Bridge Type: Deck Truss

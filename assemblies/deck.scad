@@ -20,36 +20,6 @@
 include<NopSCADlib/core.scad>;
 use<../assemblies/function_lib.scad>
 
-
-//
-// gusset
-// point_list = [
-//    [test, angle, length, width, height, color],
-//    [test, angle, length, width, height, color],
-//    [test, angle, length, width, height, color]
-// ]
-//
-module gusset(Xpos, Ypos, Zpos, point_list) {
-  color("PaleGreen") 
-    translate([Xpos, Ypos, Zpos]) {
-      if(is_list(point_list)) {
-        hull () {
-          for(g = point_list) {
-            if(is_list(g)) {
-              if(g[0]) {
-                rotate(g[1]-90) {
-                  translate([0, -g[3]/2, 0]) {
-                    color(g[5]) cube([g[2], g[3], g[4]]);
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-}
-
 //
 // stringer
 module stringer(parameters, Xpos, Ypos) {
@@ -302,7 +272,7 @@ assembly("braced_deck") {
       tbrace (parameters, x-girder_adjust, bayx+deck_width_offset+girder_adjust, 0, deck_width, 0, brace_adjust_forward, steel_adjust_forward);
       tbrace (parameters, bayx-girder_adjust, x+deck_width_offset+girder_adjust, 0, deck_width, 0, brace_adjust_reverse, steel_adjust_reverse);
     }
-    gusset(x, (steel_thickness*1.5), 0, [
+    gusset(x, (steel_thickness*1.5), 0, [0, 0, 0], [
       [(i < bays),  90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
       [(i > 0),     270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
       [true,        -skew_angle+180,            gusset_width,     deck_beam_thickness,  steel_thickness,  "Goldenrod"],
@@ -310,7 +280,7 @@ assembly("braced_deck") {
       [(i > 0),     -brace_angle_reverse+180,   gusset_length,    brace_thickness,      steel_thickness,  "purple"]
     ]); 
 
-    gusset(x+deck_width_offset, deck_width-(steel_thickness*1.5), 0, [  
+    gusset(x+deck_width_offset, deck_width-(steel_thickness*1.5), 0, [0, 0, 0], [  
       [(i < bays),  90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
       [(i > 0),     270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
       [true,        -skew_angle,                gusset_width,     deck_beam_thickness,  steel_thickness,  "Goldenrod"],
@@ -318,7 +288,7 @@ assembly("braced_deck") {
       [(i < bays),  -brace_angle_reverse,       gusset_length,    brace_thickness,      steel_thickness,  "purple"]
     ]);   
 
-    gusset(x+(bay_length/2)+bay_center_offset, (deck_width/2), 0, [
+    gusset(x+(bay_length/2)+bay_center_offset, (deck_width/2), 0, [0, 0, 0], [
       [(i < bays),  -brace_angle_forward,       gusset_center,    brace_thickness,      steel_thickness,  "red"],
       [(i < bays),  -brace_angle_reverse,       gusset_center,    brace_thickness,      steel_thickness,  "green"],
       [(i < bays),  -brace_angle_forward+180,   gusset_center,    brace_thickness,      steel_thickness,  "blue"],
@@ -376,13 +346,13 @@ assembly("stringer_deck") {
     
     deck_beam(parameters, x, 0, 0);
 
-    gusset(x, (steel_thickness*1.5), 0, [
+    gusset(x, (steel_thickness*1.5), 0, [0, 0, 0], [
       [(i < bays),  90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
       [(i > 0),     270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
       [true,        -skew_angle+180,            gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"]
     ]); 
 
-    gusset(x+deck_width_offset, deck_width-(steel_thickness*1.5), 0, [  
+    gusset(x+deck_width_offset, deck_width-(steel_thickness*1.5), 0, [0, 0, 0], [  
       [(i < bays),  90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
       [(i > 0),     270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
       [true,        -skew_angle,                gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"]
@@ -516,29 +486,29 @@ assembly("deck_deck") {
         // color("green") 
           tbrace (parameters, bayx-girder_adjust, x+deck_width_offset+girder_adjust, 0, deck_width, girder_height-brace_thickness, brace_adjust_reverse, steel_adjust_reverse);
       }
-      gusset(x+(steel_thickness/2), 0, 0, [
-        [(i < bays),  90,                         gusset_length,     brace_thickness,      steel_thickness,  "red"],
-        [(i > 0),     270,                        gusset_length,     brace_thickness,      steel_thickness,  "green"],
+      gusset(x+(steel_thickness/2), 0, 0, [0, 0, 0], [
+        [(i < bays),  90,                         gusset_length,    brace_thickness,      steel_thickness,  "red"],
+        [(i > 0),     270,                        gusset_length,    brace_thickness,      steel_thickness,  "green"],
         [true,        -skew_angle+180,            gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"],
         [(i < bays),  -brace_angle_forward+180,   gusset_length,    brace_thickness,      steel_thickness,  "blue"],
         [(i > 0),     -brace_angle_reverse+180,   gusset_length,    brace_thickness,      steel_thickness,  "purple"]
       ]); 
 
-      gusset(x+deck_width_offset+(steel_thickness/2), deck_width, 0, [  
+      gusset(x+deck_width_offset+(steel_thickness/2), deck_width, 0, [0, 0, 0], [  
         [(i < bays),  90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
         [(i > 0),     270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
         [true,        -skew_angle,                gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"]
       ]);   
 
-      gusset(x, 0, girder_height-steel_thickness, [
+      gusset(x, 0, girder_height-steel_thickness, [0, 0, 0], [
         [(i < bays),  90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
         [(i > 0),     270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
         [true,        -skew_angle+180,            gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"]
       ]); 
 
-      gusset(x+deck_width_offset, deck_width, girder_height-steel_thickness, [  
-        [(i < bays),  90,                         gusset_length,     brace_thickness,      steel_thickness,  "red"],
-        [(i > 0),     270,                        gusset_length,     brace_thickness,      steel_thickness,  "green"],
+      gusset(x+deck_width_offset, deck_width, girder_height-steel_thickness, [0, 0, 0], [  
+        [(i < bays),  90,                         gusset_length,    brace_thickness,      steel_thickness,  "red"],
+        [(i > 0),     270,                        gusset_length,    brace_thickness,      steel_thickness,  "green"],
         [true,        -skew_angle,                gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"],
         [(i > 0),     -brace_angle_forward,       gusset_length,    brace_thickness,      steel_thickness,  "blue"],
         [(i < bays),  -brace_angle_reverse,       gusset_length,    brace_thickness,      steel_thickness,  "purple"]
@@ -552,32 +522,32 @@ assembly("deck_deck") {
           tbrace (parameters, x-girder_adjust, bayx+deck_width_offset+girder_adjust+(steel_thickness/2), 0, deck_width, girder_height-brace_thickness, brace_adjust_forward, steel_adjust_forward);
       }
 
-      gusset(x, 0, 0, [
+      gusset(x, 0, 0, [0, 0, 0], [
         [(i < bays),  90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
         [(i > 0),     270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
-        [true,        -skew_angle+180,            gusset_length,     deck_beam_thickness,  steel_thickness,  "Goldenrod"]
+        [true,        -skew_angle+180,            gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"]
       ]); 
 
-      gusset(x+deck_width_offset, deck_width, 0, [  
-        [(i < bays),  90,                         gusset_length,     brace_thickness,      steel_thickness,  "red"],
-        [(i > 0),     270,                        gusset_length,     brace_thickness,      steel_thickness,  "green"],
-        [true,        -skew_angle,                gusset_length,     deck_beam_thickness,  steel_thickness,  "Goldenrod"],
+      gusset(x+deck_width_offset, deck_width, 0, [0, 0, 0], [  
+        [(i < bays),  90,                         gusset_length,    brace_thickness,      steel_thickness,  "red"],
+        [(i > 0),     270,                        gusset_length,    brace_thickness,      steel_thickness,  "green"],
+        [true,        -skew_angle,                gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"],
         [(i > 0),     -brace_angle_forward,       gusset_length,    brace_thickness,      steel_thickness,  "blue"],
         [(i < bays),  -brace_angle_reverse,       gusset_length,    brace_thickness,      steel_thickness,  "purple"]
       ]);   
 
-      gusset(x, 0, girder_height-steel_thickness, [
-        [(i < bays),  90,                         gusset_length,     brace_thickness,      steel_thickness,  "red"],
-        [(i > 0),     270,                        gusset_length,     brace_thickness,      steel_thickness,  "green"],
-        [true,        -skew_angle+180,            gusset_length,     deck_beam_thickness,  steel_thickness,  "Goldenrod"],
+      gusset(x, 0, girder_height-steel_thickness, [0, 0, 0], [
+        [(i < bays),  90,                         gusset_length,    brace_thickness,      steel_thickness,  "red"],
+        [(i > 0),     270,                        gusset_length,    brace_thickness,      steel_thickness,  "green"],
+        [true,        -skew_angle+180,            gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"],
         [(i < bays),  -brace_angle_forward+180,   gusset_length,    brace_thickness,      steel_thickness,  "blue"],
         [(i > 0),     -brace_angle_reverse+180,   gusset_length,    brace_thickness,      steel_thickness,  "purple"]
       ]); 
 
-      gusset(x+deck_width_offset, deck_width, girder_height-steel_thickness, [  
+      gusset(x+deck_width_offset, deck_width, girder_height-steel_thickness, [0, 0, 0], [  
         [(i < bays),  90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
         [(i > 0),     270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
-        [true,        -skew_angle,                gusset_length,     deck_beam_thickness,  steel_thickness,  "Goldenrod"]
+        [true,        -skew_angle,                gusset_length,    deck_beam_thickness,  steel_thickness,  "Goldenrod"]
       ]);   
 
     }

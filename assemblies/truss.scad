@@ -97,6 +97,9 @@ module truss(parameters, Xpos, Ypos, verticals) {
   brace_angle_forward   = angle_of(deck_width_offset + bay_length, deck_width);
   brace_angle_reverse   = angle_of(deck_width_offset - bay_length, deck_width);
 
+  truss_angle_forward   = angle_of((bay_length/2), truss_height);
+  truss_angle_reverse   = angle_of(-(bay_length/2), truss_height);
+
   brace_adjust_forward  = abs(angle_offset(brace_thickness/2, brace_angle_forward)/2);
   steel_adjust_forward  = abs(angle_offset(steel_thickness/2, brace_angle_forward)/2);
   brace_adjust_reverse  = abs(angle_offset(brace_thickness/2, brace_angle_reverse)/2);
@@ -173,7 +176,77 @@ module truss(parameters, Xpos, Ypos, verticals) {
             cube([bay_length, steel_thickness, truss_thickness]); 
         }
       }
+
+      gusset(x, brace_thickness/2, -(steel_thickness/2), [0, 0, 0], [
+        [true,      90,                         gusset_width,    brace_thickness,      steel_thickness,  "red"],
+        [(i > 0),   270,                        gusset_width,    brace_thickness,      steel_thickness,  "green"],
+        [true,      180,                        gusset_length,    truss_thickness,      steel_thickness,  "Goldenrod"],
+        [(i > 0),   -truss_angle_forward+180,   gusset_length,    truss_thickness,      steel_thickness,  "blue"],
+        [(i > 0),   -truss_angle_reverse+180,   gusset_length,    truss_thickness,      steel_thickness,  "purple"]
+      ]); 
+      gusset(x, brace_thickness/2, truss_thickness, [0, 0, 0], [
+        [true,      90,                         gusset_width,    brace_thickness,      steel_thickness,  "red"],
+        [(i > 0),   270,                        gusset_width,    brace_thickness,      steel_thickness,  "green"],
+        [true,      180,                        gusset_length,    truss_thickness,      steel_thickness,  "Goldenrod"],
+        [(i > 0),   -truss_angle_forward+180,   gusset_length,    truss_thickness,      steel_thickness,  "blue"],
+        [(i > 0),   -truss_angle_reverse+180,   gusset_length,    truss_thickness,      steel_thickness,  "purple"]
+      ]); 
+
+      gusset(x+(bay_length/2), brace_thickness/2, -(steel_thickness/2), [0, 0, 0], [
+        [true,     90,                         gusset_width,    brace_thickness,      steel_thickness,  "red"],
+        [true,     270,                        gusset_width,    brace_thickness,      steel_thickness,  "green"],
+        [true,     180,                        gusset_length,    truss_thickness,      steel_thickness,  "Goldenrod"],
+      ]); 
+      gusset(x+(bay_length/2), brace_thickness/2, truss_thickness, [0, 0, 0], [
+        [true,     90,                         gusset_width,    brace_thickness,      steel_thickness,  "red"],
+        [true,     270,                        gusset_width,    brace_thickness,      steel_thickness,  "green"],
+        [true,     180,                        gusset_length,    truss_thickness,      steel_thickness,  "Goldenrod"],
+      ]); 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+      translate([0, truss_height-brace_thickness, 0]) 
+        gusset(x+(bay_length/2), brace_thickness/2, -(steel_thickness/2), [0, 0, 0], [
+          [(i < bays-1),  90,                         gusset_width,    brace_thickness,      steel_thickness,  "red"],
+          [(i > 0),       270,                        gusset_width,    brace_thickness,      steel_thickness,  "green"],
+          [true,          0,                          gusset_length,    truss_thickness,      steel_thickness,  "Goldenrod"],
+          [true,          -truss_angle_forward,       gusset_length,    truss_thickness,      steel_thickness,  "blue"],
+          [(i > 0),       -truss_angle_reverse,       gusset_length,    truss_thickness,      steel_thickness,  "purple"]
+        ]);     
+      translate([0, truss_height-brace_thickness, 0]) 
+        gusset(x+(bay_length/2), brace_thickness/2, truss_thickness, [0, 0, 0], [
+          [(i < bays-1),  90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
+          [(i > 0),       270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
+          [true,          0,                          gusset_length,    truss_thickness,      steel_thickness,  "Goldenrod"],
+          [true,          -truss_angle_forward,       gusset_length,    truss_thickness,      steel_thickness,  "blue"],
+          [(i > 0),       -truss_angle_reverse,       gusset_length,    truss_thickness,      steel_thickness,  "purple"]
+        ]); 
+
+      if(i < bays-1) {
+        translate([0, truss_height-brace_thickness, 0]) 
+          gusset(x+(bay_length), brace_thickness/2, -(steel_thickness/2), [0, 0, 0], [
+            [true,        90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
+            [true,        270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
+            [true,        0,                          gusset_length,    truss_thickness,      steel_thickness,  "Goldenrod"],
+          ]); 
+        translate([0, truss_height-brace_thickness, 0]) 
+          gusset(x+(bay_length), brace_thickness/2, truss_thickness, [0, 0, 0], [
+            [true,        90,                         gusset_width,     brace_thickness,      steel_thickness,  "red"],
+            [true,        270,                        gusset_width,     brace_thickness,      steel_thickness,  "green"],
+            [true,        0,                          gusset_length,    truss_thickness,      steel_thickness,  "Goldenrod"],
+          ]); 
+      }
     }
+
+    gusset(bridge_length-deck_beam_inset, brace_thickness/2, 0, [0, 0, 0], [
+      [true,       270,                        gusset_width,    brace_thickness,    steel_thickness,  "green"],
+      [true,       180,                        gusset_length,    truss_thickness,    steel_thickness,  "Goldenrod"]
+    ]); 
+    gusset(bridge_length-deck_beam_inset, brace_thickness/2, truss_thickness, [0, 0, 0], [
+      [true,       270,                        gusset_width,    brace_thickness,    steel_thickness,  "green"],
+      [true,       180,                        gusset_length,    truss_thickness,    steel_thickness,  "Goldenrod"]
+    ]); 
+
   }
 }
 
@@ -194,9 +267,6 @@ assembly("truss"){
   deck_width              = value_of("deck_width", parameters);
   space_between_parts     = value_of("space_between_parts", parameters);
   deck_beam_thickness     = value_of("deck_beam_thickness", parameters);
-
-  // translate([0, 0, 0])
-  //   cube([bridge_length, truss_height, deck_beam_thickness]);
 
   if(truss_type==0) {
     echo("Truss Type: Warren");
