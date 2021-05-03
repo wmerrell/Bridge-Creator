@@ -18,7 +18,6 @@
 // If not, see <https://www.gnu.org/licenses/>.
 //
 
-include<NopSCADlib/core.scad>;
 use<../assemblies/function_lib.scad>
 
 //

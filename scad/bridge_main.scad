@@ -25,34 +25,39 @@
 // $pp1_colour = "dimgrey";
 // $pp2_colour = [0.9, 0.9, 0.9];
 $fn = 36 * 1;
-include<NopSCADlib/core.scad>
 use<MCAD/regular_shapes.scad>
 use<../assemblies/function_lib.scad>
 use<../assemblies/deck.scad>
 use<../assemblies/girder.scad>
 use<../assemblies/truss.scad>
 use<../assemblies/roof.scad>
+use<../assemblies/beam.scad>
 
+echo();
+echo();
+echo();
+echo();
+echo();
 // preview[view:south, tilt:top]
 
 //
 // CUSTOMIZING
 //
-Scale = 1;// [0:Z, 1:N, 2:HO, 3:S, 4:O]
-Bridge_Type = 0;// [0:Through Girder, 1:Deck Girder, 2:Through Truss, 3:Deck Truss, 4:Angle Test]
+Scale = 1;// [0:Z, 1:N, 2:HO, 3:S, 4:O, 5:G]
+Bridge_Type = 2;// [0:Through Girder, 1:Deck Girder, 2:Through Truss, 3:Deck Truss, 4:Angle Test]
 Deck_Type = 0;// [0:X Braced Deck, 1:Stringer Deck, 2:Beam Deck Ballasted]
 Truss_Type = 1;// [0:Warren, 1:Warren w/ Verticals, 2:Pratt]
-Roof_Type = 1;// [0:Beam, 1:Cross Lace]
+Roof_Type = 0;// [0:Beam, 1:Cross Lace]
 
 /* [Prototype Bridge Dimensions] */
 Bridge_Length_in_Feet = 60.0;
-Bridge_Width_in_Feet = 20.0;
-Bay_Count = 8;
+Bridge_Width_in_Feet = 23.0;
+Bay_Count = 2;
 
 Side_Girder_Height_in_Feet = 8.0;
 Side_Girder_Thickness_in_Inches = 18.0;
 
-Side_Truss_Height_in_Feet = 24.0;
+Side_Truss_Height_in_Feet = 28.0;
 Side_Truss_Thickness_in_Inches = 18.0;
 
 Deck_Beam_Height_in_Inches = 24.0;
@@ -77,6 +82,7 @@ Girder_End_Setback_In_Inches = 24.0;
 Show_Rivets = true;
 Use_Knees = true;
 Extension = false;
+Use_Supports = false;
 
 /* [Layout] */
 Space_Between_Parts = 0.0;
@@ -86,21 +92,21 @@ Space_Between_Parts = 0.0;
 //
 
 parameters=[
-  ["scale",                   [220, 160, 87, 64, 48][Scale]],
-  ["gauge",                   [6.5, 9.0, 16.5, 22.43, 30.0][Scale]],
+  ["scale",                   [220, 160, 87, 64, 48, 22.5][Scale]],
+  ["gauge",                   [6.5, 9.0, 16.5, 22.43, 30.0, 45.0][Scale]],
   ["skew_angle",              Skew_Angle_in_Degrees],
   ["bridge_type",             Bridge_Type],
   ["deck_type",               Deck_Type],
   ["truss_type",              Truss_Type],
   ["roof_type",               Roof_Type],
-  ["steel_thickness",         scaler(Scale, [3.0, 2.5, 1.75, 1.5, 1][Scale])],
+  ["steel_thickness",         scaler(Scale, [3.0, 2.5, 1.75, 1.5, 1, 1][Scale])],
   ["bridge_length",           scaler(Scale, Bridge_Length_in_Feet * 12)],
   ["bridge_width",            scaler(Scale, Bridge_Width_in_Feet * 12)],
   ["girder_height",           scaler(Scale, Side_Girder_Height_in_Feet * 12)],
   ["girder_thickness",        scaler(Scale, Side_Girder_Thickness_in_Inches)],
   ["truss_height",            scaler(Scale, Side_Truss_Height_in_Feet * 12)],
   ["truss_thickness",         scaler(Scale, Side_Truss_Thickness_in_Inches)],
-  ["deck_thickness",          [0.3, 0.5, 0.75, 1.1, 1.6][Scale]],
+  ["deck_thickness",          [0.3, 0.5, 0.75, 1.1, 1.6, 1.25][Scale]],
   ["deck_width",              (scaler(Scale, Bridge_Width_in_Feet * 12) - (scaler(Scale, Side_Girder_Thickness_in_Inches) * 2))],
   ["deck_center",             ((scaler(Scale, Bridge_Width_in_Feet * 12) - (scaler(Scale, Side_Girder_Thickness_in_Inches) * 2)) / 2)],
   ["deck_beam_height",        scaler(Scale, Deck_Beam_Height_in_Inches)],
@@ -114,7 +120,7 @@ parameters=[
   ["gusset_length",           scaler(Scale, Gusset_Length_in_Inches)],
   ["gusset_width",            scaler(Scale, Gusset_Width_in_Inches)],
   ["gusset_center",           scaler(Scale, Gusset_Center_in_Inches)],
-  ["rivet_round",             8],
+  ["rivet_round",             16],
   ["rivet_height",            scaler(Scale, 1.0)],
   ["rivet_size1",             scaler(Scale, 1.5)],
   ["rivet_size2",             scaler(Scale, 0.8)],
@@ -126,6 +132,7 @@ parameters=[
   ["show_rivets",             Show_Rivets],
   ["use_knees",               Use_Knees],
   ["extension",               Extension],
+  ["supports",                Use_Supports],
   ["0",                       0]
 ]; 
 
@@ -245,6 +252,7 @@ module main(p) {
   } else {
     assert(false, "Unknown Bridge Type");
   }
+
 }
 
 main(parameters);
