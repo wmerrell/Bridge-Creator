@@ -29,9 +29,9 @@ use<MCAD/regular_shapes.scad>
 use<../assemblies/function_lib.scad>
 use<../assemblies/deck.scad>
 use<../assemblies/girder.scad>
-use<../assemblies/truss.scad>
-use<../assemblies/roof.scad>
-use<../assemblies/beam.scad>
+// use<../assemblies/truss.scad>
+// use<../assemblies/roof.scad>
+// use<../assemblies/beam.scad>
 
 echo();
 echo();
@@ -102,8 +102,8 @@ parameters=[
   ["skew_angle",              Skew_Angle_in_Degrees],
   ["bridge_type",             Bridge_Type],
   ["deck_type",               Deck_Type],
-  ["truss_type",              Truss_Type],
-  ["roof_type",               Roof_Type],
+  // ["truss_type",              Truss_Type],
+  // ["roof_type",               Roof_Type],
   ["steel_thickness",         scaler(Scale, [3.0, 2.5, 1.75, 1.5, 1, 1][Scale])],
   ["bridge_length",           scaler(Scale, Bridge_Length_in_Feet * 12)],
   ["bridge_width",            scaler(Scale, Bridge_Width_in_Feet * 12)],
@@ -137,7 +137,7 @@ parameters=[
   ["show_rivets",             Show_Rivets],
   ["use_knees",               Use_Knees],
   ["extension",               Extension],
-  ["supports",                Use_Supports],
+  // ["supports",                Use_Supports],
   ["0",                       0]
 ]; 
 
@@ -219,36 +219,36 @@ module main(p) {
     }
     //
     // Bridge Type: Through Truss
-  } else if(bridge_type(p) == 2) {
-    echo("Bridge Type: Through Truss");
-    if(deck_type(p)==0) {
-      braced_deck(p);
-    } else if(deck_type(p)==1) {
-      stringer_deck(p);
-    } else if(deck_type(p)==2) {
-      beam_deck(p);
-    } else {
-      assert(false, "Unknown Deck Type");
-    } 
+  // } else if(bridge_type(p) == 2) {
+  //   echo("Bridge Type: Through Truss");
+  //   if(deck_type(p)==0) {
+  //     braced_deck(p);
+  //   } else if(deck_type(p)==1) {
+  //     stringer_deck(p);
+  //   } else if(deck_type(p)==2) {
+  //     beam_deck(p);
+  //   } else {
+  //     assert(false, "Unknown Deck Type");
+  //   } 
     
-    side_truss(p, 90, "left");
-    if (!extension(p)) {
-      side_truss(p, 90, "right");
-    }
-    roof(p);
-    //
-    // Bridge Type: Deck Truss
-  } else if(bridge_type(p) == 3) {
-    echo("Bridge Type: Deck Truss");
-    //   deck_assembly(bridge_length, deck_width, deck_thickness);
-    //   left_side_panel_assembly (girder_height, girder_thickness, 90, false);
-    //   right_side_panel_assembly(girder_height, girder_thickness, 90, false);
-    //
-    // Bridge Type: Angle Test
-  } else if(bridge_type(p) == 4) {
-    echo("Bridge Type: Angle Test");
-    //
-    // Bridge Type: Unknown Bridge Type
+  //   side_truss(p, 90, "left");
+  //   if (!extension(p)) {
+  //     side_truss(p, 90, "right");
+  //   }
+  //   roof(p);
+  //   //
+  //   // Bridge Type: Deck Truss
+  // } else if(bridge_type(p) == 3) {
+  //   echo("Bridge Type: Deck Truss");
+  //   //   deck_assembly(bridge_length, deck_width, deck_thickness);
+  //   //   left_side_panel_assembly (girder_height, girder_thickness, 90, false);
+  //   //   right_side_panel_assembly(girder_height, girder_thickness, 90, false);
+  //   //
+  //   // Bridge Type: Angle Test
+  // } else if(bridge_type(p) == 4) {
+  //   echo("Bridge Type: Angle Test");
+  //   //
+  //   // Bridge Type: Unknown Bridge Type
   } else {
     assert(false, "Unknown Bridge Type");
   }
