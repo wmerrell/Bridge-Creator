@@ -130,26 +130,28 @@ module beam(type, length, height, width, thick, start=undef, end=undef) {
       translate([i-thick,  wa-ta,   -ta]) rotate([ 0, 0, -xang]) cube([xlen, thick, thick]);
     }
   } else if(type=="V" || type=="v") {
-    translate([0,   -wa,     -ha])     cube([length, thick,   height]);
-    translate([0,    wa-ta, -ha])     cube([length, thick,   height]);
+    rotate([90,0,0]) {
+      translate([0,   -wa,     -ha])     cube([length, thick,   height]);
+      translate([0,    wa-ta, -ha])     cube([length, thick,   height]);
 
-    translate([0,   -wa,           -ta])     cube([length, thick*2, thick]);
-    translate([0,    wa-(thick)-ta, -ta])     cube([length, thick*2, thick]);
-    translate([0,   -wa,           -ta])     cube([st,     width,   thick]);
-    translate([en,  -wa,           -ta])     cube([st,     width,   thick]);
+      translate([0,   -wa,           -ta])     cube([length, thick*2, thick]);
+      translate([0,    wa-(thick)-ta, -ta])     cube([length, thick*2, thick]);
+      translate([0,   -wa,           -ta])     cube([st,     width,   thick]);
+      translate([en,  -wa,           -ta])     cube([st,     width,   thick]);
 
-    xang = angle_of(width, len+thick+ta);
-    xlen = hypotenuse(width, len);
-    stop = ((en-wa-st)/len);
-    // for(i = [st : len : en-wa]) {
-    for(i = [0 : 1 : stop]) {
-      echo(st=st, en=en, stop=stop, i=i)
-      if ((i%2) > 0) {
-        translate([(i*len)+st,       -wa+ta,         -ta]) rotate([ 0, 0,  xang]) cube([xlen, thick, thick]);
-        // translate([i-thick,  wa-ta,   -ta]) rotate([ 0, 0, -xang]) cube([xlen, thick, thick]);
-      } else {
-        // translate([i,       -wa+ta,         -ta]) rotate([ 0, 0,  xang]) cube([xlen, thick, thick]);
-        translate([(i*len)-thick+st,  wa-ta,   -ta]) rotate([ 0, 0, -xang]) cube([xlen, thick, thick]);
+      xang = angle_of(width, len+thick+ta);
+      xlen = hypotenuse(width, len);
+      stop = ((en-wa-st)/len);
+      // for(i = [st : len : en-wa]) {
+      for(i = [0 : 1 : stop]) {
+        // echo(st=st, en=en, stop=stop, i=i)
+        if ((i%2) > 0) {
+          translate([(i*len)+st,       -wa+ta,         -ta]) rotate([ 0, 0,  xang]) cube([xlen, thick, thick]);
+          // translate([i-thick,  wa-ta,   -ta]) rotate([ 0, 0, -xang]) cube([xlen, thick, thick]);
+        } else {
+          // translate([i,       -wa+ta,         -ta]) rotate([ 0, 0,  xang]) cube([xlen, thick, thick]);
+          translate([(i*len)-thick+st,  wa-ta,   -ta]) rotate([ 0, 0, -xang]) cube([xlen, thick, thick]);
+        }
       }
     }
   } else if(type=="B" || type=="b") {
@@ -162,7 +164,7 @@ module beam(type, length, height, width, thick, start=undef, end=undef) {
 
 // Xpos, Ypos, Zpos
 module beam_to(start, end, rot, type, height, width, thick) {
-  echo(start=start, end=end, rot=rot, type=type, height=height, width=width, thick=thick);
+  // echo(start=start, end=end, rot=rot, type=type, height=height, width=width, thick=thick);
   yang = angle_of(end.z-start.z, hypotenuse(end.x-start.x,end.y-start.y));
   zang = angle_of(end.y-start.y, end.x-start.x);
   len  = hypotenuse(end.z-start.z, hypotenuse(end.x-start.x, end.y-start.y));

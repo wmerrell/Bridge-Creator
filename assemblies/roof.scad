@@ -49,18 +49,39 @@ module roof_brace (start, end, rot, typ, bh, bt, st, size) {
 //
 // roof_beam
 // Used to create a truss beam across the bridge witdth
-module roof_beam(p, Xpos, Ypos, Zpos, typ) {
+module roof_beam(p, Xpos, Ypos, Zpos, typ, ang) {
   beam_offset           = angle_offset(deck_width(p), skew_angle(p));
 
   difference() {
     if (typ == "i") {
       beam_to([Xpos, Ypos-steel_thickness(p), Zpos-(truss_thickness(p)/2)-steel_thickness(p)], 
               [Xpos+beam_offset, Ypos+deck_width(p)+steel_thickness(p), Zpos-(truss_thickness(p)/2)-steel_thickness(p)], 
-              0, typ, truss_thickness(p), deck_beam_thickness(p), steel_thickness(p));
+              ang, typ, truss_thickness(p), deck_beam_thickness(p), steel_thickness(p));
     } else {
-      beam_to([Xpos, Ypos-steel_thickness(p), Zpos-(truss_thickness(p)/2)-(steel_thickness(p)/2)], 
-              [Xpos+beam_offset, Ypos+deck_width(p)+steel_thickness(p), Zpos-(truss_thickness(p)/2)-(steel_thickness(p)/2)], 
-              90, typ, deck_beam_thickness(p), truss_thickness(p), steel_thickness(p));
+      beam_to([Xpos, Ypos-steel_thickness(p), Zpos], 
+              [Xpos+beam_offset, Ypos+deck_width(p)+steel_thickness(p), Zpos], 
+              ang, typ, deck_beam_thickness(p), truss_thickness(p), steel_thickness(p));
+    }
+    translate([Xpos+5, Ypos, Zpos-5]) rotate([0,0,180]) color("red") cube([10, 10, 10]);
+    translate([Xpos-5+beam_offset, Ypos+deck_width(p), Zpos-5]) rotate([0,0,0]) color("blue") cube([10, 10, 10]);
+  }
+}
+
+//
+// sway_brace
+// Used to create a truss beam across the bridge witdth
+module sway_brace(p, Xpos, Ypos, Zpos, typ, ang) {
+  beam_offset           = angle_offset(deck_width(p), skew_angle(p));
+
+  difference() {
+    if (typ == "i") {
+      beam_to([Xpos, Ypos-steel_thickness(p), Zpos-(truss_thickness(p)/2)-steel_thickness(p)], 
+              [Xpos+beam_offset, Ypos+deck_width(p)+steel_thickness(p), Zpos-(truss_thickness(p)/2)-steel_thickness(p)], 
+              ang, typ, truss_thickness(p), deck_beam_thickness(p), steel_thickness(p));
+    } else {
+      beam_to([Xpos, Ypos-steel_thickness(p), Zpos], 
+              [Xpos+beam_offset, Ypos+deck_width(p)+steel_thickness(p), Zpos], 
+              ang, typ, deck_beam_thickness(p), truss_thickness(p), steel_thickness(p));
     }
     translate([Xpos+5, Ypos, Zpos-5]) rotate([0,0,180]) color("red") cube([10, 10, 10]);
     translate([Xpos-5+beam_offset, Ypos+deck_width(p), Zpos-5]) rotate([0,0,0]) color("blue") cube([10, 10, 10]);
@@ -82,10 +103,21 @@ module beam_roof(p, typ) {
   brace_adjust_reverse    = abs(angle_offset(truss_thickness(p)/2, brace_angle_reverse)/2);
   steel_adjust_reverse    = abs(angle_offset(steel_thickness(p)/2, brace_angle_reverse)/2);
 
+  truss_angle_forward   = angle_of((bay_length(p)/2), truss_height(p));
+  truss_angle_reverse   = angle_of(-(bay_length(p)/2), truss_height(p));
+
+
   for(i = [0 : 1 : bays(p)-1]) {
     x = deck_beam_inset(p) + (bay_length(p)*i) + (bay_length(p)/2);
     bayx = x + bay_length(p);
-    roof_beam(p, x, 0, truss_height(p), typ);
+    if (i == 0) {
+      roof_beam(p, x, 0, truss_height(p)-(brace_thickness(p)/2), typ, 90);
+
+    } else if (i == bays(p)-1) {
+      roof_beam(p, x, 0, truss_height(p)-(brace_thickness(p)/2), typ, 90);
+    } else {
+      roof_beam(p, x, 0, truss_height(p)-(truss_thickness(p)/2)-(steel_thickness(p)/2), typ, 0);
+    }
     if (supports(p)) {
       roof_support(p, x, (deck_width(p)/3), truss_height(p)-truss_thickness(p), 0, 0);
       roof_support(p, x, ((deck_width(p)/3)*2), truss_height(p)-truss_thickness(p), 1, 0);
@@ -109,10 +141,10 @@ module beam_roof(p, typ) {
       } else {
         roof_brace( [x-truss_adjust, 0, truss_height(p)-(truss_thickness(p)/2)-(steel_thickness(p)/2)], 
                     [bayx+deck_width_offset+truss_adjust, deck_width(p), truss_height(p)-(truss_thickness(p)/2)-(steel_thickness(p)/2)], 
-                    90, "v", brace_thickness(p), truss_thickness(p), steel_thickness(p), 10);
+                    0, "v", brace_thickness(p), truss_thickness(p), steel_thickness(p), 10);
         roof_brace( [bayx-truss_adjust, 0, truss_height(p)-(truss_thickness(p)/2)-(steel_thickness(p)/2)], 
                     [x+deck_width_offset+truss_adjust, deck_width(p), truss_height(p)-(truss_thickness(p)/2)-(steel_thickness(p)/2)], 
-                    90, "v", brace_thickness(p), truss_thickness(p), steel_thickness(p), 10);
+                    0, "v", brace_thickness(p), truss_thickness(p), steel_thickness(p), 10);
 
         if (supports(p)) {
           roof_support(p, x+angle_offset(deck_width(p)/3, brace_angle_forward), (deck_width(p)/3), truss_height(p)-truss_thickness(p), 0, 1);
@@ -159,7 +191,7 @@ module roof(p) {
     beam_roof(p, "i");
   } else if(roof_type(p)==1) {
     echo("Roof Type: Cross Laced");
-    beam_roof(p, "c");
+    beam_roof(p, "v");
   } else {
     echo("Roof Type: Unknown Roof Type");
     assert(false, "Unknown Roof Type");

@@ -42,6 +42,7 @@ function bridge_type(list) = list[search(["bridge_type"],list)[0]][1];
 function deck_type(list) = list[search(["deck_type"],list)[0]][1];               
 function truss_type(list) = list[search(["truss_type"],list)[0]][1];              
 function roof_type(list) = list[search(["roof_type"],list)[0]][1];               
+function sway_brace_type(list) = list[search(["sway_brace_type"],list)[0]][1];               
 function steel_thickness(list) = list[search(["steel_thickness"],list)[0]][1];         
 function bridge_length(list) = list[search(["bridge_length"],list)[0]][1];           
 function bridge_width(list) = list[search(["bridge_width"],list)[0]][1];            

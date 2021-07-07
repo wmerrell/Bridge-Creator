@@ -43,11 +43,14 @@ echo();
 //
 // CUSTOMIZING
 //
-Scale = 1;// [0:Z, 1:N, 2:HO, 3:S, 4:O, 5:G]
-Bridge_Type = 2;// [0:Through Girder, 1:Deck Girder, 2:Through Truss, 3:Deck Truss, 4:Angle Test]
-Deck_Type = 0;// [0:X Braced Deck, 1:Stringer Deck, 2:Beam Deck Ballasted]
-Truss_Type = 1;// [0:Warren, 1:Warren w/ Verticals, 2:Pratt]
-Roof_Type = 0;// [0:Beam, 1:Cross Lace]
+Scale = 1; // [0:Z, 1:N, 2:HO, 3:S, 4:O, 5:G]
+Bridge_Type = 0; // [0:Through Girder, 1:Deck Girder]
+/*
+, 2:Through Truss, 3:Deck Truss, 4:Angle Test]
+Truss_Type = 0; // [0:Warren, 1:Warren w/ Verticals, 2:Pratt]
+Roof_Type = 0; // [0:Beam, 1:Cross Lace]
+*/
+Deck_Type = 0; // [0:X Braced Deck, 1:Stringer Deck, 2:Beam Deck Ballasted]
 
 /* [Prototype Bridge Dimensions] */
 Bridge_Length_in_Feet = 60.0;
@@ -82,7 +85,9 @@ Girder_End_Setback_In_Inches = 24.0;
 Show_Rivets = true;
 Use_Knees = true;
 Extension = false;
+/*
 Use_Supports = false;
+*/
 
 /* [Layout] */
 Space_Between_Parts = 0.0;
@@ -149,8 +154,6 @@ echo();
 
 //
 // side_girder
-//! 1. Glue the deck in
-//!
 //
 module side_girder(p, position, direction) {
   if (direction=="left") {
@@ -168,8 +171,6 @@ module side_girder(p, position, direction) {
 
 //
 // side_truss
-//! 1. Glue the deck in
-//!
 //
 module side_truss(p, position, direction) {
   if (direction=="left") {
@@ -187,8 +188,7 @@ module side_truss(p, position, direction) {
 }
 
 //
-//! 1. Glue all the parts together
-//!
+// main
 //
 module main(p) {
     //
