@@ -18,7 +18,7 @@
 // If not, see <https://www.gnu.org/licenses/>.
 //
 
-use<../assemblies/function_lib.scad>
+use<function_lib.scad>
 
 //
 // rivets

@@ -26,12 +26,12 @@
 // $pp2_colour = [0.9, 0.9, 0.9];
 $fn = 36 * 1;
 use<MCAD/regular_shapes.scad>
-use<../assemblies/function_lib.scad>
-use<../assemblies/deck.scad>
-use<../assemblies/girder.scad>
-// use<../assemblies/truss.scad>
-// use<../assemblies/roof.scad>
-// use<../assemblies/beam.scad>
+use<function_lib.scad>
+use<deck.scad>
+use<girder.scad>
+// use<truss.scad>
+// use<roof.scad>
+// use<beam.scad>
 
 echo();
 echo();
@@ -55,7 +55,7 @@ Deck_Type = 0; // [0:X Braced Deck, 1:Stringer Deck, 2:Beam Deck Ballasted]
 /* [Prototype Bridge Dimensions] */
 Bridge_Length_in_Feet = 60.0;
 Bridge_Width_in_Feet = 23.0;
-Bay_Count = 2;
+Bay_Count = 3;
 
 Side_Girder_Height_in_Feet = 8.0;
 Side_Girder_Thickness_in_Inches = 18.0;
@@ -69,7 +69,7 @@ Deck_Beam_Thickness_in_Inches = 8.0;
 Brace_Height_in_Inches = 8.0;
 Brace_Thickness_in_Inches = 8.0;
 
-Stringer_Height_in_Inches = 18.0;
+Stringer_Height_in_Inches = 16.0;
 Stringer_Thickness_in_Inches = 12.0;
 
 Gusset_Length_in_Inches = 18.0;
